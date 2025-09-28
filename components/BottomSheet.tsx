@@ -22,7 +22,7 @@ const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 // Snap positions for the bottom sheet
 const SNAP_POINTS = {
-  HALF: SCREEN_HEIGHT * 0.5,
+  HALF: SCREEN_HEIGHT * 0.5, 
   FULL: SCREEN_HEIGHT * 0.8,
   CLOSED: SCREEN_HEIGHT,
 };
