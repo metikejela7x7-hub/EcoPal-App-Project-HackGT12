@@ -5,43 +5,59 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { commonStyles, colors } from '../styles/commonStyles';
 import Icon from '../components/Icon';
 import { router } from 'expo-router';
+import { useUser } from '../context/UserContext';
+
+interface Challenge {
+  id: number;
+  title: string;
+  description: string;
+  points: number;
+  icon: string;
+  completed: boolean;
+}
 
 export default function HomeScreen() {
-  const [userLevel, setUserLevel] = useState(5);
-  const [userPoints, setUserPoints] = useState(1250);
-  const [streak, setStreak] = useState(7);
+  const { userPoints, setUserPoints, userLevel, setUserLevel, streak, setStreak
+    , tasks, setTasks, completedTasks, setCompletedTasks, addRecentActivity } = useUser();
 
-  const dailyChallenges = [
-    {
-      id: 1,
-      title: 'Use Public Transport',
-      description: 'Take the bus or train instead of driving',
-      points: 50,
-      icon: 'bus-outline',
-      completed: false,
-    },
-    {
-      id: 2,
-      title: 'Recycle 3 Items',
-      description: 'Sort and recycle plastic, paper, or glass',
-      points: 30,
-      icon: 'leaf-outline',
-      completed: true,
-    },
-    {
-      id: 3,
-      title: 'Save Water',
-      description: 'Take a 5-minute shower',
-      points: 25,
-      icon: 'water-outline',
-      completed: false,
-    },
-  ];
-
+  
+  
   const handleChallengePress = (challengeId: number) => {
-    console.log('Challenge pressed:', challengeId);
-    // Here you would typically update the challenge completion status
-  };
+  setTasks(prevTasks =>
+    prevTasks.map(task => {
+      if (task.id === challengeId) {
+        if (task.completed) {
+          // UNDO
+          setUserPoints(points => points - task.points);
+          setCompletedTasks(prev => prev.filter(t => t.id !== task.id));
+
+          addRecentActivity({
+            action: `Undid "${task.title}"`,
+            points: -task.points,
+            date: "Today",
+          });
+
+          return { ...task, completed: false };
+        } else {
+          // COMPLETE
+          setUserPoints(points => points + task.points);
+          setCompletedTasks(prev => [...prev, { ...task, completed: true }]);
+
+          addRecentActivity({
+            action: `Completed "${task.title}"`,
+            points: task.points,
+            date: "Today",
+          });
+
+          return { ...task, completed: true };
+        }
+      }
+      return task;
+    })
+  );
+};
+
+ 
 
   return (
     <SafeAreaView style={commonStyles.container}>
@@ -93,7 +109,7 @@ export default function HomeScreen() {
         {/* Daily Challenges */}
         <View style={{ marginBottom: 20 }}>
           <Text style={[commonStyles.subtitle, { marginBottom: 16 }]}>Today's Challenges</Text>
-          {dailyChallenges.map((challenge) => (
+          {tasks.map((challenge) => (
             <TouchableOpacity
               key={challenge.id}
               style={[

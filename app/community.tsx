@@ -5,10 +5,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { commonStyles, colors } from '../styles/commonStyles';
 import Icon from '../components/Icon';
 import { router } from 'expo-router';
+import { useUser } from '../context/UserContext';
 
 export default function CommunityScreen() {
   const [selectedTab, setSelectedTab] = useState('impact');
-
+  const { userPoints } = useUser();
   const globalStats = {
     totalUsers: 125000,
     co2Saved: 2500000, // kg
@@ -20,7 +21,7 @@ export default function CommunityScreen() {
     { id: 1, name: 'EcoWarrior23', points: 15420, level: 12, avatar: '🌱' },
     { id: 2, name: 'GreenThumb', points: 14890, level: 11, avatar: '🌿' },
     { id: 3, name: 'PlanetSaver', points: 14200, level: 11, avatar: '🌍' },
-    { id: 4, name: 'You', points: 1250, level: 5, avatar: '🐢' },
+    { id: 4, name: 'EarthGreen', points: userPoints, level: 5, avatar: '🐢' },
     { id: 5, name: 'EcoFriend', points: 1180, level: 4, avatar: '🌳' },
   ];
 
@@ -86,7 +87,7 @@ export default function CommunityScreen() {
           <Text style={{ fontSize: 40, marginRight: 16 }}>🐢</Text>
           <View style={{ flex: 1 }}>
             <Text style={[commonStyles.text, { fontWeight: '600', marginBottom: 4 }]}>
-              Salva says:
+              Salva:
             </Text>
             <Text style={commonStyles.textLight}>
               "Look at our amazing community! Together we're making a real difference! 🌟"
@@ -188,7 +189,7 @@ export default function CommunityScreen() {
                     <Text style={{ fontSize: 24 }}>🌍</Text>
                   </View>
                   <Text style={[commonStyles.title, { fontSize: 20, marginBottom: 4 }]}>
-                    {formatNumber(globalStats.co2Saved)}kg
+                    {formatNumber(globalStats.co2Saved)} kg
                   </Text>
                   <Text style={commonStyles.textLight}>CO₂ Saved</Text>
                 </View>
@@ -222,7 +223,7 @@ export default function CommunityScreen() {
                     <Icon name="leaf" size={24} color={colors.white} />
                   </View>
                   <Text style={[commonStyles.title, { fontSize: 20, marginBottom: 4 }]}>
-                    {formatNumber(globalStats.wasteReduced)}kg
+                    {formatNumber(globalStats.wasteReduced)} kg
                   </Text>
                   <Text style={commonStyles.textLight}>Waste Reduced</Text>
                 </View>
@@ -278,9 +279,9 @@ export default function CommunityScreen() {
                   style={[
                     commonStyles.smallCard,
                     {
-                      backgroundColor: user.name === 'You' ? colors.backgroundAlt : colors.card,
-                      borderWidth: user.name === 'You' ? 2 : 0,
-                      borderColor: user.name === 'You' ? colors.primary : 'transparent',
+                      backgroundColor: user.name === 'EarthGreen' ? colors.backgroundAlt : colors.card,
+                      borderWidth: user.name === 'EarthGreen' ? 2 : 0,
+                      borderColor: user.name === 'EarthGreen' ? colors.primary : 'transparent',
                       marginBottom: 12,
                     }
                   ]}

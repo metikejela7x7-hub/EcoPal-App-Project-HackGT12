@@ -105,7 +105,7 @@ export default function ChallengesScreen() {
           <Text style={{ fontSize: 40, marginRight: 16 }}>🐢</Text>
           <View style={{ flex: 1 }}>
             <Text style={[commonStyles.text, { fontWeight: '600', marginBottom: 4 }]}>
-              Salva says:
+              Salva:
             </Text>
             <Text style={commonStyles.textLight}>
               "Every small action counts! Pick a challenge and let's save the planet together! 🌍"

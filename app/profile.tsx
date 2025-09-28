@@ -6,20 +6,13 @@ import { commonStyles, colors } from '../styles/commonStyles';
 import Icon from '../components/Icon';
 import { router } from 'expo-router';
 import SimpleBottomSheet from '../components/BottomSheet';
+import { useUser } from '../context/UserContext';
 
 export default function ProfileScreen() {
+  const { userPoints, userLevel, streak, completedTasks, recentActivities } = useUser();
   const [isSettingsVisible, setIsSettingsVisible] = useState(false);
 
-  const userStats = {
-    level: 5,
-    points: 1250,
-    streak: 7,
-    challengesCompleted: 23,
-    co2Saved: 145, // kg
-    treesPlanted: 8,
-    rank: 4,
-    joinDate: 'March 2024',
-  };
+  const totalChallengesCompleted = completedTasks.length + 8;
 
   const achievements = [
     { id: 1, title: 'First Steps', description: 'Complete your first challenge', icon: '🌱', unlocked: true },
@@ -30,12 +23,7 @@ export default function ProfileScreen() {
     { id: 6, title: 'Water Guardian', description: 'Complete 25 water challenges', icon: '💧', unlocked: false },
   ];
 
-  const recentActivities = [
-    { id: 1, action: 'Completed "Recycle 3 Items"', points: 30, date: 'Today' },
-    { id: 2, action: 'Used public transport', points: 50, date: 'Yesterday' },
-    { id: 3, action: 'Completed "LED Light Switch"', points: 75, date: '2 days ago' },
-    { id: 4, action: 'Planted a tree', points: 100, date: '3 days ago' },
-  ];
+  
 
   return (
     <SafeAreaView style={commonStyles.container}>
@@ -62,59 +50,59 @@ export default function ProfileScreen() {
             justifyContent: 'center',
             marginBottom: 16,
           }}>
-            <Text style={{ fontSize: 50 }}>🐢</Text>
+            <Text style={{ fontSize: 50 }}>🌱</Text>
           </View>
-          <Text style={[commonStyles.title, { marginBottom: 4 }]}>Eco Warrior</Text>
+          <Text style={[commonStyles.title, { marginBottom: 4 }]}>EarthGreen</Text>
           <Text style={[commonStyles.textLight, { marginBottom: 16 }]}>
-            Member since {userStats.joinDate}
+            Eco Warrior since March 2024
           </Text>
           <View style={[commonStyles.row, { marginBottom: 16 }]}>
             <View style={[commonStyles.center, { marginHorizontal: 20 }]}>
               <Text style={[commonStyles.title, { fontSize: 24, marginBottom: 0, color: colors.primary }]}>
-                {userStats.level}
+                {userLevel}
               </Text>
               <Text style={commonStyles.textLight}>Level</Text>
             </View>
             <View style={[commonStyles.center, { marginHorizontal: 20 }]}>
               <Text style={[commonStyles.title, { fontSize: 24, marginBottom: 0, color: colors.success }]}>
-                #{userStats.rank}
+                #4
               </Text>
               <Text style={commonStyles.textLight}>Rank</Text>
             </View>
             <View style={[commonStyles.center, { marginHorizontal: 20 }]}>
               <Text style={[commonStyles.title, { fontSize: 24, marginBottom: 0, color: colors.warning }]}>
-                {userStats.streak}
+                {streak}
               </Text>
               <Text style={commonStyles.textLight}>Streak</Text>
             </View>
           </View>
         </View>
 
-        {/* Stats Grid */}
+        {/* Your Impact */}
         <View style={[commonStyles.card, { marginBottom: 20 }]}>
           <Text style={[commonStyles.subtitle, { marginBottom: 16 }]}>Your Impact</Text>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
             <View style={[commonStyles.center, { width: '48%', marginBottom: 16 }]}>
               <Text style={[commonStyles.title, { fontSize: 20, marginBottom: 4, color: colors.success }]}>
-                {userStats.points.toLocaleString()}
+                {userPoints.toLocaleString()}
               </Text>
               <Text style={commonStyles.textLight}>Total Points</Text>
             </View>
             <View style={[commonStyles.center, { width: '48%', marginBottom: 16 }]}>
               <Text style={[commonStyles.title, { fontSize: 20, marginBottom: 4, color: colors.primary }]}>
-                {userStats.challengesCompleted}
+                {totalChallengesCompleted}
               </Text>
               <Text style={commonStyles.textLight}>Challenges</Text>
             </View>
             <View style={[commonStyles.center, { width: '48%' }]}>
               <Text style={[commonStyles.title, { fontSize: 20, marginBottom: 4, color: colors.secondary }]}>
-                {userStats.co2Saved}kg
+                145 kg {/* CO2 saved*/}
               </Text>
               <Text style={commonStyles.textLight}>CO₂ Saved</Text>
             </View>
             <View style={[commonStyles.center, { width: '48%' }]}>
               <Text style={[commonStyles.title, { fontSize: 20, marginBottom: 4, color: colors.accent }]}>
-                {userStats.treesPlanted}
+                8 {/* trees planted*/}
               </Text>
               <Text style={commonStyles.textLight}>Trees Planted</Text>
             </View>
